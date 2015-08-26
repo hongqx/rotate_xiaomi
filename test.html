@@ -1,0 +1,207 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大转盘活动</title>
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<style type="text/css" href="http://static.youku.com/v1.0.1086/index/css/yk_mobile.css"></style>
+<script type="text/javascript">
+   //用户登录全局变量
+   window.passport_url = "http://passport.youku.com";
+</script>
+<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="js/jQueryRotate.2.2.js"></script>
+<script type="text/javascript" src="http://static.youku.com/v1.0.1085/index/js/mlogin.js"></script>
+
+<script type="text/javascript">
+//转盘渲染配置
+var turnplate={
+		prizes:[],				//大转盘奖品名称
+		colors:["#bef1f4","#85dee4","#60d0d8"],					//大转盘奖品区块对应背景颜色
+		outsideRadius:174,			//大转盘外圆的半径
+		textRadius:140,				//大转盘奖品位置距离圆心的距离
+		insideRadius:43.5,			//大转盘内圆的半径
+		startAngle:0,				//开始角度
+		bRotate:false		//false:停止;ture:旋转
+};
+var lotteryConfig ={
+	id:132,
+	sourceUrl:"http://beta.youku.com/x_mLotteryInfo",
+	actUrl:"http://v.youku.com/x_mLotteryDraw",
+	infoUrl:"http://v.youku.com/x_mLotteryUserInfo"
+};
+turnplate.prizes = [{"prize_id":"518","prize_no":"1","prize_name":"小米电视","prize_copy":"恭喜你获得小米电视","prize_icon":"images/tv.png"},{"prize_id":"519","prize_no":"12","prize_name":"Xbox One体感游戏机","prize_copy":"恭喜你获得Xbox One体感游戏机","prize_icon":"images/game.png"},{"prize_id":"520","prize_no":"3","prize_name":"谢谢参与","prize_copy":"谢谢参与","prize_icon":"images/thank.png"},{"prize_id":"521","prize_no":"4","prize_name":"小米手机","prize_copy":"恭喜你获得小米手机","prize_icon":"images/phone.png"},{"prize_id":"522","prize_no":"5","prize_name":"优酷会员","prize_copy":"优酷会员","prize_icon":"images/member.png"}];
+$(document).ready(function(){
+	// //动态添加大转盘的奖品与奖品区域背景颜色
+	// turnplate.restaraunts = ["50M免费流量包", "10闪币", "谢谢参与", "5闪币", "10M免费流量包", "20M免费流量包", "20闪币 ", "30M免费流量包", "100M免费流量包", "2闪币"];
+	// turnplate.colors = ["#85dee4", "#bef1f4"];
+	var rotateTimeOut = function (){
+		$('#wheelcanvas').rotate({
+			angle:0,
+			animateTo:2160,
+			duration:8000,
+			callback:function (){
+				alert('网络超时，请检查您的网络设置！');
+			}
+		});
+	};
+
+	//旋转转盘 item:奖品位置; txt：提示语;
+	var rotateFn = function (item, txt){
+		var angles = item * (360 / turnplate.prizes.length) - (360 / (turnplate.prizes.length*2));
+		if(angles<270){
+			angles = 270 - angles; 
+		}else{
+			angles = 360 - angles + 270;
+		}
+		$('#wheelcanvas').stopRotate();
+		$('#wheelcanvas').rotate({
+			angle:0,
+			animateTo:angles+1800,
+			duration:8000,
+			callback:function (){
+				alert(txt);
+				turnplate.bRotate = !turnplate.bRotate;
+			}
+		});
+	};
+	function act(){
+        $.ajax({
+        	url:lotteryConfig.actUrl,
+        	data:{"id":lotteryConfig.id},
+        	dataType:"jsonp",
+        	crossDomain:"true",
+            success:function(data){
+            	after(data);
+            }
+        });
+	}
+	function afterAct(data){
+       console.log(data);
+	}
+    function checkIfLogin(){
+        if(!islogin()){
+            $(document).bind("userlogin",function(){
+            	act();
+            });
+            login();
+        }else{
+        	act();
+        }
+    }
+	$('.pointer').click(function (){
+		/*if(turnplate.bRotate)return;
+		turnplate.bRotate = !turnplate.bRotate;
+		//获取随机数(奖品个数范围内)
+		var item = rnd(1,turnplate.prizes.length);
+		//奖品数量等于10,指针落在对应奖品区域的中心角度[252, 216, 180, 144, 108, 72, 36, 360, 324, 288]
+		rotateFn(item, turnplate.prizes[item-1]);
+		
+		console.log(item);*/
+		checkIfLogin();
+	});
+});
+
+function rnd(n, m){
+	var random = Math.floor(Math.random()*(m-n+1)+n);
+	return random;
+	
+}
+
+
+//页面所有元素加载完毕后执行drawRouletteWheel()方法对转盘进行渲染
+window.onload=function(){
+	drawRouletteWheel();
+};
+//预先创建所有的图片对象
+function createImg(data){
+	var imgObjArr =[];
+    for(var i = 0 ; i < data.length ;i++){
+   	  // var img = $(document.createElement("img"));
+   	  // img.css("display","none");
+   	  // img.attr("id","icon_"+data[i].prize_id);
+   	  // img.attr("src",data[i].prize_icon);
+      // container.append(img);
+      var img = new Image();
+       img.style.display = "none";
+      img.src = data[i].prize_icon;
+
+      imgObjArr.push(img);
+    }
+   return imgObjArr;
+}
+function drawRouletteWheel() {      
+  var container = $(".banner");
+  var canvas = document.getElementById("wheelcanvas");  
+  var imgs = createImg(turnplate.prizes);
+  if (canvas.getContext) {
+	  //根据奖品个数计算圆周角度
+	  var arc = Math.PI / (turnplate.prizes.length/2);
+	  var ctx = canvas.getContext("2d");
+	  //在给定矩形内清空一个矩形
+	  ctx.clearRect(0,0,422,422);
+	  //strokeStyle 属性设置或返回用于笔触的颜色、渐变或模式  
+	  ctx.strokeStyle = "#85dee4";
+	  //font 属性设置或返回画布上文本内容的当前字体属性
+	  ctx.font = '16px Microsoft YaHei'; 
+	  var _len =  turnplate.prizes.length ;   
+	  for(var i = 0; i < _len ; i++) {       
+		  var angle = turnplate.startAngle + i * arc;
+		  ctx.fillStyle = i < (_len-1) ? turnplate.colors[i%2] :(_len/2===0 ? turnplate.colors[i%2] : turnplate.colors[2]);
+		  ctx.beginPath();
+		  //arc(x,y,r,起始角,结束角,绘制方向) 方法创建弧/曲线（用于创建圆或部分圆）    
+		  ctx.arc(211, 211, turnplate.outsideRadius, angle, angle + arc, false);    
+		  ctx.arc(211, 211, turnplate.insideRadius, angle + arc, angle, true);
+		  ctx.stroke();  
+		  ctx.fill();
+		  //锁画布(为了保存之前的画布状态)
+		  ctx.save();   
+		  
+		  //----绘制奖品开始----
+		  ctx.fillStyle = "#147a81";
+		  var text = turnplate.prizes[i].prize_name;
+		  var prize_id = turnplate.prizes[i].prize_id;
+		  //添加图片元素
+		  // var img =  document.createElement("img");
+		  // img.style.display = 'none';
+		  // img.src = turnplate.prizes[i].prize_icon;
+		  // img.id = "icon_"+prize_id;
+		  // $(".banner").append(img);
+ 
+		  var line_height = 17;
+		  //translate方法重新映射画布上的 (0,0) 位置
+		  ctx.translate(211 + Math.cos(angle + arc / 2) * turnplate.textRadius, 211 + Math.sin(angle + arc / 2) * turnplate.textRadius);
+		  
+		  //rotate方法旋转当前的绘图
+		  ctx.rotate(angle + arc / 2 + Math.PI / 2);
+		  //字数多的时候 将字体改小两号
+		  if(text.length > 6){
+		  	 ctx.font = 'bold 14px Microsoft YaHei';
+		  }
+	      ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+		  var img = imgs[i] ;
+		  console.log(img);
+		  ctx.drawImage(img,-22,10,60,60);     
+		  //把当前画布返回（调整）到上一个save()状态之前 
+		  ctx.restore();
+		  //----绘制奖品结束----
+	  }     
+  } 
+}
+
+</script>
+</head>
+<body style="background:#e62d2d;overflow-x:hidden;">
+   
+	<div class="banner">
+		<div class="turnplate" style="background-image:url(images/light.png);background-size:100% 100%;">
+			<canvas class="item" id="wheelcanvas" width="422px" height="422px"></canvas>
+			<img class="pointer" src="images/start1.png"/>
+		</div>
+	</div>
+</body>
+</html>
