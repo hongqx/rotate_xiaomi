@@ -13,12 +13,7 @@
 	html{font-size: 62.5%;font-family: sans-serif;}
 	.wrap{width:100%;height:100%;position: absolute;background: url(images/background.png) no-repeat;background-size: 100% 100%;text-align: center;}
 	.ykMark{width:72%;height:15%;background: url(images/youkushipin.png) no-repeat;background-size: 100% 100%;margin:10% auto 8%;}
-	.turntable{width:90%;margin:0 auto;
-		        background-image:url(images/light.png);background-size:100% 100%;
-		      position:relative;
-	          }
-	.turntable canvas.item{width:100%;}
-    .turntable img.pointer{position:absolute;width:22%;left:38.9%;top:31.6%;}
+	
 	.dateLine{color: #147a81;width: 100%;text-align: center;margin-top: 5%;font-size: 1.2rem;}
 	.tip-content{width:100%;height:100%;position: fixed;top:0;left:0;}
 	.mask{position: absolute;width: 100%;height: 100%;left: 0;top: 0;opacity: 0.5;background: #000;z-index: 10;}
@@ -37,51 +32,128 @@
 	.youwin span{display:inline-block;text-indent: 23px;color:#ff8143;font-size: 3.4rem;padding-top: 2%;}
 	.award{padding-bottom:10%;text-align: center;font-size: 1.6rem;color:#7d7d7d;}
 	.receive-award{text-indent: 23px;background: #ffd943;color:#a15619;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;font-size: 2.0rem;text-align: center;padding:5% 0;  text-indent: 0;}
-	.rotate{
-		width:336px;
-		height:336px;
-		position:relative;
+	.turntable{width:90%;margin:0 auto;position:relative;overflow: hidden;}
+    .turntable img.pointer{position:absolute;width:22%;left:38.9%;top:31.6%;}
+    .out_rotate{
+    	width:100%;
+    	height:100%;
+    	background-image:url(images/light.png);
+    	background-size:100% 100%;
+    	position:absolute;
+    	overflow: hidden;
+    }
+	.out_rotate .rotate{
+		position:absolute;
+		width:80%;
+		height:80%;
+		top: 10%;
+		left:10%;
 		border-radius: 50%;
 		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+		-ms-border-radius: 50%;
 		overflow:hidden;
+		background-color: #85dee4;
 	}
-	.rotate .item{
+	.out_rotate .rotate .item{
 		position:absolute;
-        width: 168px;
-        height: 168px;
+        width: 50%;
+        height: 50%;
         overflow: hidden;
+        transform-origin: 100% 100%;
         -webkit-transform-origin: 100% 100%;
+        -moz-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
 	}
-	.rotate .item1{
-        transform:rotate(0deg) skew(18deg) ;
-        -webkit-transform:rotate(0deg) skew(18deg) ;
-        background-color: green;
+	.out_rotate .rotate .item .i_info{
+        display:block;
+		position:absolute;
+		width:200%;
+		height:200%;
+        border-radius: 50%;
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+		-ms-border-radius: 50%;
 	}
-	.rotate .item2{
-        transform:rotate(72deg) skew(18deg) ;
-        -webkit-transform:rotate(72deg) skew(18deg) ;
-        background-color: yellow;
+	.out_rotate .rotate .item1{
+		transform:rotate(-10deg) skew(45deg);
+		-webkit-transform:rotate(-10deg) skew(45deg);
+		-moz-transform:rotate(-10deg) skew(45deg);
+		-ms-transform:rotate(-10deg) skew(45deg);
+		background-color:#53C5CD;
 	}
-	.item3{
-        transform:rotate(144deg) skew(18deg) ;
-        -webkit-transform:rotate(144deg) skew(18deg) ;
-        background-color: red;
+	.out_rotate .rotate .item2{
+		transform:rotate(35deg) skew(45deg);
+		-webkit-transform:rotate(35deg) skew(45deg);
+		-moz-transform:rotate(35deg) skew(45deg);
+		-ms-transform:rotate(35deg) skew(45deg);
+		background-color:#60BAC1;
 	}
-	.item4{
-        transform:rotate(216deg) skew(18deg) ;
-        -webkit-transform:rotate(216deg) skew(18deg) ;
-        background-color: green;
+	.out_rotate .rotate .item3{
+		transform:rotate(80deg) skew(45deg);
+		-webkit-transform:rotate(80deg) skew(45deg);
+		-webkit-transform:rotate(80deg) skew(45deg);
+		-ms-transform:rotate(80deg) skew(45deg);
+		background-color:#53C5CD;
 	}
-	.item5{
-        transform:rotate(-72deg) skew(18deg) ;
-        -webkit-transform:rotate(-72deg) skew(18deg) ;
-        background-color: red;
+	.out_rotate .rotate .item4{
+		transform:rotate(125deg) skew(45deg);
+		-webkit-transform:rotate(125deg) skew(45deg);
+		-webkit-transform:rotate(125deg) skew(45deg);
+		-ms-transform:rotate(125deg) skew(45deg);
+		background-color:#60BAC1;
 	}
-	
+	.out_rotate .rotate .item5{
+		transform:rotate(170deg) skew(45deg);
+		-webkit-transform:rotate(170deg) skew(45deg);
+		-webkit-transform:rotate(170deg) skew(45deg);
+        -ms-transform:rotate(170deg) skew(45deg);		
+        background-color:#15595E;
+	}
+	.out_rotate .rotate .item6{
+		transform:rotate(215deg) skew(45deg);
+		-webkit-transform:rotate(215deg) skew(45deg);
+		-moz-transform:rotate(215deg) skew(45deg);
+		-ms-transform:rotate(215deg) skew(45deg);
+		background-color:#60BAC1;
+	}
+	.out_rotate .rotate .item7{
+		transform:rotate(260deg) skew(45deg);
+		-webkit-transform:rotate(260deg) skew(45deg);
+		-moz-transform:rotate(260deg) skew(45deg);
+		-ms-transform:rotate(260deg) skew(45deg);
+		background-color:#15595E;
+	}
+	.out_rotate .rotate .item8{
+		transform:rotate(305deg) skew(45deg);
+		-webkit-transform:rotate(305deg) skew(45deg);
+		-moz-transform:rotate(305deg) skew(45deg);
+        -ms-transform:rotate(305deg) skew(45deg);
+		background-color:#15595E;
+	}
+	.out_rotate .rotate .item .i_info{
+		transform:skew(-45deg) rotate(-67deg);
+		-webkit-transform:skew(-45deg) rotate(-67deg);
+		-moz-transform:skew(-45deg) rotate(-67deg);
+		-ms-transform:skew(-45deg) rotate(-67deg);
+	}
+	.out_rotate .rotate .item .txt{
+		width:100%;
+		position: relative;
+        top: 3%;
+	    display: block;
+	    font-size: .5em;
+	    font-weight: 700;
+	}
+	.out_rotate .rotate .item img{
+		width:12%;
+		position: relative;
+        margin-top:5%;
+	}
 	</style>
 	<script type="text/javascript">
-   //用户登录全局变量
-   window.passport_url = "http://passport.youku.com";
+  
+    window.passport_url = "http://passport.youku.com";
    </script>
 <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="js/jQueryRotate.2.2.js"></script>
@@ -90,23 +162,31 @@
 
 </head>
 <body>
-  
+   
 	<div class="wrap">
 		<div class="ykMark"></div>
 		<!-- 转盘div -->
-		<div class="turntable">
-			<div class="rotate" style="">
-				<div class="item item1"></div>
-				<div class="item item2"></div>
-				<div class="item item3"></div>
-				<div class="item item4"></div>
-				<div class="item item5"></div>
-				<img class="pointer" id="js_pointer" src="images/start1.png"/>
+		<div class="turntable" style="height: 320px;">
+		    <div class="out_rotate">
+				<div class="rotate" id="rotate">
+					<div class="item item1"><div class="i_info"><span class="txt">小米电视</span><img src="images/tv.png" alt=""></div></div>
+					<div class="item item2"><div class="i_info"><span class="txt">小米手机</span><img src="images/phone.png" alt=""></div></div>
+					<div class="item item3"><div class="i_info"><span class="txt">优酷会员卡</span><img src="images/game.png" alt=""></div></div>
+					<div class="item item4"><div class="i_info"><span class="txt">优酷年会员卡</span><img src="images/member.png" alt=""></div></div>
+					<div class="item item5"><div class="i_info"><span class="txt">谢谢参与！</span><img src="images/thank.png" alt=""></div></div>
+					<div class="item item6"><div class="i_info"><span class="txt">谢谢参与cccc！</span><img src="images/tv.png" alt=""></div></div>
+					<div class="item item7"><div class="i_info"><span class="txt">小米电视</span><img src="images/phone.png" alt=""></div></div>
+					<div class="item item8"><div class="i_info"><span class="txt">小米手机</span><img src="images/member.png" alt=""></div></div>
+				</div>
 			</div>
-			
+			<img class="pointer" id="js_pointer" src="images/start1.png"/>
 		</div>
 		<div class="dateLine" id="js_dateLine">活动日期：</div>
 	</div>
+	<script type="text/javascript">  
+	   var dom = $(".turntable");
+        dom.height(dom.width());
+    </script>
 	  <div class="tip-content" style="display:none">
 		<div class="mask" style="display:none;"></div>
 		<!-- 录入信息 -->
@@ -132,11 +212,5 @@
 		</div>
 	</div>	
 	<div class="mask_g" style="display:none;"></div>
-	
-	<!-- <img class="srcImg" src="http://r3.ykimg.com/0510000055DD303A6714C05A8A014061" style="display:none;" />
-	<img class="srcImg" src="http://r3.ykimg.com/0510000055DD30466714C07F120ED0AE" style="display:none;" />
-	<img class="srcImg" src="http://r1.ykimg.com/0510000055DD30586714C067F20D2F52" style="display:none;" />
-	<img class="srcImg" src="http://r4.ykimg.com/0510000055DD30BF6714C0660603E3FC" style="display:none;" />
-	<img class="srcImg" src="http://r4.ykimg.com/0510000055DD30EB6714C00B6F0DECBB" style="display:none;" /> -->
 </body>
 </html>
