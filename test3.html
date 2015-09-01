@@ -76,66 +76,66 @@
 		-ms-border-radius: 50%;
 	}
 	.out_rotate .rotate .item1{
-		transform:rotate(-10deg) skew(45deg);
-		-webkit-transform:rotate(-10deg) skew(45deg);
-		-moz-transform:rotate(-10deg) skew(45deg);
-		-ms-transform:rotate(-10deg) skew(45deg);
+		transform:rotate(-10deg) skew(18deg);
+		-webkit-transform:rotate(-10deg) skew(18deg);
+		-moz-transform:rotate(-10deg) skew(18deg);
+		-ms-transform:rotate(-10deg) skew(18deg);
 		background-color:#53C5CD;
 	}
 	.out_rotate .rotate .item2{
-		transform:rotate(35deg) skew(45deg);
-		-webkit-transform:rotate(35deg) skew(45deg);
-		-moz-transform:rotate(35deg) skew(45deg);
-		-ms-transform:rotate(35deg) skew(45deg);
+		transform:rotate(62deg) skew(18deg);
+		-webkit-transform:rotate(62deg) skew(18deg);
+		-moz-transform:rotate(62deg) skew(18deg);
+		-ms-transform:rotate(62deg) skew(18deg);
 		background-color:#60BAC1;
 	}
 	.out_rotate .rotate .item3{
-		transform:rotate(80deg) skew(45deg);
-		-webkit-transform:rotate(80deg) skew(45deg);
-		-webkit-transform:rotate(80deg) skew(45deg);
-		-ms-transform:rotate(80deg) skew(45deg);
+		transform:rotate(134deg) skew(18deg);
+		-webkit-transform:rotate(134deg) skew(18deg);
+		-webkit-transform:rotate(134deg) skew(18deg);
+		-ms-transform:rotate(134deg) skew(18deg);
 		background-color:#53C5CD;
 	}
 	.out_rotate .rotate .item4{
-		transform:rotate(125deg) skew(45deg);
-		-webkit-transform:rotate(125deg) skew(45deg);
-		-webkit-transform:rotate(125deg) skew(45deg);
-		-ms-transform:rotate(125deg) skew(45deg);
+		transform:rotate(206deg) skew(18deg);
+		-webkit-transform:rotate(206deg) skew(18deg);
+		-webkit-transform:rotate(206deg) skew(18deg);
+		-ms-transform:rotate(206deg) skew(18deg);
 		background-color:#60BAC1;
 	}
 	.out_rotate .rotate .item5{
-		transform:rotate(170deg) skew(45deg);
-		-webkit-transform:rotate(170deg) skew(45deg);
-		-webkit-transform:rotate(170deg) skew(45deg);
-        -ms-transform:rotate(170deg) skew(45deg);		
-        background-color:#15595E;
+		transform:rotate(278deg) skew(18deg);
+		-webkit-transform:rotate(278deg) skew(18deg);
+		-webkit-transform:rotate(278deg) skew(18deg);
+	        -ms-transform:rotate(278deg) skew(18deg);		
+	        background-color:#15595E;
 	}
-	.out_rotate .rotate .item6{
-		transform:rotate(215deg) skew(45deg);
-		-webkit-transform:rotate(215deg) skew(45deg);
-		-moz-transform:rotate(215deg) skew(45deg);
-		-ms-transform:rotate(215deg) skew(45deg);
+	/*.out_rotate .rotate .item6{
+		transform:rotate(215deg) skew(18deg);
+		-webkit-transform:rotate(215deg) skew(18deg);
+		-moz-transform:rotate(215deg) skew(18deg);
+		-ms-transform:rotate(215deg) skew(18deg);
 		background-color:#60BAC1;
 	}
 	.out_rotate .rotate .item7{
-		transform:rotate(260deg) skew(45deg);
-		-webkit-transform:rotate(260deg) skew(45deg);
-		-moz-transform:rotate(260deg) skew(45deg);
-		-ms-transform:rotate(260deg) skew(45deg);
+		transform:rotate(260deg) skew(18deg);
+		-webkit-transform:rotate(260deg) skew(18deg);
+		-moz-transform:rotate(260deg) skew(18deg);
+		-ms-transform:rotate(260deg) skew(18deg);
 		background-color:#15595E;
 	}
 	.out_rotate .rotate .item8{
-		transform:rotate(305deg) skew(45deg);
-		-webkit-transform:rotate(305deg) skew(45deg);
-		-moz-transform:rotate(305deg) skew(45deg);
-        -ms-transform:rotate(305deg) skew(45deg);
+		transform:rotate(305deg) skew(18deg);
+		-webkit-transform:rotate(305deg) skew(18deg);
+		-moz-transform:rotate(305deg) skew(18deg);
+	        -ms-transform:rotate(305deg) skew(18deg);
 		background-color:#15595E;
-	}
+	} */
 	.out_rotate .rotate .item .i_info{
-		transform:skew(-45deg) rotate(-67deg);
-		-webkit-transform:skew(-45deg) rotate(-67deg);
-		-moz-transform:skew(-45deg) rotate(-67deg);
-		-ms-transform:skew(-45deg) rotate(-67deg);
+		transform:skew(-18deg) rotate(-67deg);
+		-webkit-transform:skew(-18deg) rotate(-67deg);
+		-moz-transform:skew(-18deg) rotate(-67deg);
+		-ms-transform:skew(-18deg) rotate(-67deg);
 	}
 	.out_rotate .rotate .item .txt{
 		width:100%;
@@ -157,6 +157,7 @@
    </script>
 <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="js/jQueryRotate.2.2.js"></script>
+<script type="text/javascript" src="js/Lottery.js"></script>
 <script type="text/javascript" src="http://static.youku.com/v1.0.1085/index/js/mlogin.js"></script>
 <link id="headercss" href="http://static.youku.com/v1.0.1086/index/css/yk_mobile.css" type="text/css" rel="stylesheet">
 
@@ -166,17 +167,17 @@
 	<div class="wrap">
 		<div class="ykMark"></div>
 		<!-- 转盘div -->
-		<div class="turntable" style="height: 320px;">
+		<div class="turntable" style="width:372px;height:372px">
 		    <div class="out_rotate">
-				<div class="rotate" id="rotate">
-					<div class="item item1"><div class="i_info"><span class="txt">小米电视</span><img src="images/tv.png" alt=""></div></div>
+				<div class="rotate" id="js_rotate">
+					<!-- <div class="item item1"><div class="i_info"><span class="txt">小米电视</span><img src="images/tv.png" alt=""></div></div>
 					<div class="item item2"><div class="i_info"><span class="txt">小米手机</span><img src="images/phone.png" alt=""></div></div>
 					<div class="item item3"><div class="i_info"><span class="txt">优酷会员卡</span><img src="images/game.png" alt=""></div></div>
 					<div class="item item4"><div class="i_info"><span class="txt">优酷年会员卡</span><img src="images/member.png" alt=""></div></div>
-					<div class="item item5"><div class="i_info"><span class="txt">谢谢参与！</span><img src="images/thank.png" alt=""></div></div>
-					<div class="item item6"><div class="i_info"><span class="txt">谢谢参与cccc！</span><img src="images/tv.png" alt=""></div></div>
+					<div class="item item5"><div class="i_info"><span class="txt">谢谢参与！</span><img src="images/thank.png" alt=""></div></div> -->
+					<!-- <div class="item item6"><div class="i_info"><span class="txt">谢谢参与cccc！</span><img src="images/tv.png" alt=""></div></div>
 					<div class="item item7"><div class="i_info"><span class="txt">小米电视</span><img src="images/phone.png" alt=""></div></div>
-					<div class="item item8"><div class="i_info"><span class="txt">小米手机</span><img src="images/member.png" alt=""></div></div>
+					<div class="item item8"><div class="i_info"><span class="txt">小米手机</span><img src="images/member.png" alt=""></div></div> -->
 				</div>
 			</div>
 			<img class="pointer" id="js_pointer" src="images/start1.png"/>
@@ -184,9 +185,10 @@
 		<div class="dateLine" id="js_dateLine">活动日期：</div>
 	</div>
 	<script type="text/javascript">  
-	   var dom = $(".turntable");
-        dom.height(dom.width());
+	  /* var dom = $(".turntable");
+        dom.height(dom.width());*/
     </script>
+    
 	  <div class="tip-content" style="display:none">
 		<div class="mask" style="display:none;"></div>
 		<!-- 录入信息 -->
@@ -212,5 +214,6 @@
 		</div>
 	</div>	
 	<div class="mask_g" style="display:none;"></div>
+
 </body>
 </html>
