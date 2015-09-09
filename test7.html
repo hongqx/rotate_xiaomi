@@ -1,0 +1,577 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" id="viewport" content="width=device-width,maximum-scale=1.0,minimum-scale=1.0,initial-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="HandheldFriendly" content="true">
+	<title>优酷App抽奖</title>
+	<style type="text/css">
+	html, body ,ul,li{padding: 0;margin: 0;}
+	ul,li {list-style-type: none;}
+	html{font-size: 62.5%;font-family: sans-serif;}
+	.wrap{width:100%;height:100%;position: absolute;background: url(images/background.png) no-repeat;background-size: 100% 100%;text-align: center;}
+	.ykMark{width:72%;height:15%;background: url(images/youkushipin.png) no-repeat;background-size: 100% 100%;margin:10% auto 8%;}
+	
+	.dateLine{color: #147a81;width: 100%;text-align: center;margin-top: 5%;font-size: 1.2rem;}
+	.tip-content{width:100%;height:100%;position: fixed;top:0;left:0;}
+	.mask{position: absolute;width: 100%;height: 100%;left: 0;top: 0;opacity: 0.5;background: #000;z-index: 10;}
+	.info-content{width:72%;position: absolute;top:50%;left:50%;margin:-48% 0 0 -36%;border-radius: 10px;background: #fff;z-index:20;}
+	.info-content ul{height:80%;width:100%;}
+	.iterm{height:36px;margin:7% 5%;border:1px solid #e5e5e5;border-radius: 20px;background: #fcfcfc;text-indent: 10px;color:#b6b6b6;line-height: 36px;overflow: hidden;}
+	.itermerror{border:1px solid #F16363;color:#F4A1A1;}
+	.sty{height: 100%}
+	.iterm input{width: 77%;height: 31px;border:none;background: #fcfcfc;color:#D5D0D0;vertical-align: middle;padding-bottom: 2px;text-indent: 3px}
+	.itermerror input{color:#F4A1A1;}
+	.info-content button{width:100%;border:none;background: #ffd943;color:#a15619;height:45px;line-height: 20%;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;font-size: 1.7rem;}
+	.fail{width:72%;padding:8% 0;background:#fff;margin:-8% 0 0 -36%;z-index:20;position: absolute;top:50%;left:50%;border-radius: 10px;}
+	.thanks{position: relative;top: 30%;height:34px;line-height:34px;width:80%;margin:0 auto;background:url(images/balloon.png) 0 0 no-repeat;background-size: auto 100%;text-indent: 1.8rem; color:#4cbfc7;font-size: 1.5rem;font-weight: bold;text-align:center;}
+	.win{width:70%;background: #fff;z-index:20;position: absolute;top:50%;left:50%;margin:-30% 0 0 -35%;border-radius: 20px;font-weight: bold;}
+	.youwin{width:90%;height:34%;margin:4% 4%;text-align: center;background: url(images/decorate.png) 0 0 no-repeat;background-size: 100% 100%;}
+	.youwin span{display:inline-block;text-indent: 23px;color:#ff8143;font-size: 2.2rem;padding-top: 2%;}
+	.award{padding-bottom:10%;text-align: center;font-size: 1.2rem;color:#7d7d7d;}
+	.receive-award{text-indent: 23px;background: #ffd943;color:#a15619;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;font-size: 2.0rem;text-align: center;padding:5% 0;  text-indent: 0;}
+	.turntable{width:90%;margin:0 auto;position:relative; overflow: hidden;}
+    .turntable img.pointer{position:absolute;width:22%;left:38.9%;top:31.6%;}
+	.turntable .rotate{position:absolute;width:100%;height:100%;background-image:url(images/gamebg.png);background-size: 100% 100%;
+	}
+	</style>
+	<script type="text/javascript">
+     window.passport_url = "http://passport.youku.com";
+     document.domain = 'youku.com';
+   </script>
+<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="js/jQueryRotate.2.2.js"></script>
+<script type="text/javascript" src="http://static.youku.com/v1.0.1085/index/js/mlogin.js"></script>
+<link id="headercss" href="http://static.youku.com/v1.0.1086/index/css/yk_mobile.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+  
+	<div class="wrap">
+		<div class="ykMark"></div>
+		<!-- 转盘div -->
+		<div class="turntable" style="">
+			<div class="rotate" id="rotate">
+			</div>
+			<img class="pointer" id="js_pointer" src="images/start1.png"/>
+		</div>
+		<div class="dateLine" id="js_dateLine">活动日期：</div>
+	</div>
+	  <div class="tip-content" style="display:none">
+		<div class="mask" style="display:none;"></div>
+		<!-- 录入信息 -->
+		<div class="info-content" id="js_info" style="display:none;">
+			<ul>
+				<li class="iterm">姓名：<input id="js_name" data-msg="真实姓名必须填写" placeholder="您的真实姓名"></li>
+				<li class="iterm">电话：<input id="js_tel" data-msg="手机号必填，11位数字" placeholder="填写手机号,方便与您联系"></li>
+				<li class="iterm">地址：<input id="js_addr" data-msg="地址必须填写" placeholder="填写地址,方便寄送"></li>
+			</ul>
+			<button id="js_submit">领取奖品</button>
+		</div>
+		<!-- 谢谢参与 -->
+		<div class="fail" id="js_fail" style="display:none;">
+			<div class="thanks">谢谢参与</div>
+		</div>
+		<!-- 中奖 -->
+		<div class="win" id="js_msShow" style="display:none;">
+			<div class="youwin">
+				<span>恭喜中奖！</span>
+			</div>
+			<div class="award">获得优酷会员卡一张</div>
+			<div class="receive-award" id="js_getward">领取奖品</div>
+		</div>
+	</div>	
+	<div class="mask_g" style="display:none;"></div>
+	<script type="text/javascript">
+		(function(){
+		   function UserInfo(data){
+				this.infoDoms = $("#js_info input"); 
+				this.data = data ? data :{};
+				/*this.data.lid=132;
+				this.data.pid=581;*/
+				this.infoUrl ="http://v.youku.com/x_mLotteryUserInfo";
+				this.flag = false;//为提交数据时间加锁
+				this.showUserInfo = function(){
+			        $(".mask").show();
+			        $("#js_info").show();
+			        this.bindEvent();
+				};
+				
+				this.bindEvent = function(){
+					var _this = this;
+			       $("#js_info").on("focus","input",function(){
+			           var data_msg = $(this).attr("data-msg");
+			           $(this).attr("placeholder","");
+			       	   $(this).parent().removeClass("itermerror");
+			       	   //$(this).attr("daitermerrorta-msg",$(this).attr("placeholder"));
+			       	   if($(this).val() ===data_msg){
+			       	   	  $(this).val("");
+			       	   }
+			           
+			       });
+			       $("#js_info").on("blur","input",function(){
+			       	   var data_msg = $(this).attr("data-msg");
+			       	   if($(this).val() ==="" || $(this).val()===data_msg){
+			       	   	  _this.showItemError(this);
+			       	   }
+			           
+			       });
+			       this.showItemError = function(dom){
+			       	    var data_msg = $(dom).attr("data-msg");
+			       	    $(dom).parent().addClass("itermerror");
+			       	   	$(dom).val(data_msg);
+			       };
+			       $("#js_info").on("click","button",function(){
+			       	  //console.info(_this);
+			       	  if(!_this.flag){
+			            if(!_this.checkUserInfo()){
+			               //_this.showError();
+			               return;
+			            }else{
+			               _this.sendUserInfo();
+			            }
+			       	  }else{
+			       	  	return ;
+			       	  }
+			       	   
+			       });
+				};
+				this.sendUserInfo = function(){
+					 var _this = this;
+					 this.flag = true;
+			         $.ajax({
+			        	url:this.infoUrl,
+			        	type:"get",
+			        	data:this.data,
+			        	dataType:"jsonp",
+			        	crossDomain:"true",
+			            success:function(data){
+			            	_this.showResult(data);
+			            }
+			         });
+				};
+                this.clearInfo = function(){
+                    for(var i = 0 ; i < this.infoDoms.length; i++){
+                    	var _dom = this.infoDoms[i];
+                    	$(_dom).val("");
+                    	$(_dom).attr("placeholder",$(_dom).attr("data-msg"));
+                    }
+                    this.data = {};
+                };
+				this.showResult = function(data){
+					this.flag=false;
+			        if(data.error_code===0){
+			            $("#js_info").hide();
+			            this.clearInfo();
+			            $("#js_fail").html('<div class="thanks">信息提交成功！</div>');
+			            $("#js_fail").show();
+			            setTimeout(function(){
+			            	 $(".js_fail").hide();
+			            	 $(".tip-content").hide();
+			            	 $(".mask").hide();
+			            }, 4000);
+			        }else{
+			            $("#js_submit").html("提交异常，请再次提交！");
+			        }
+
+				};
+				this.filter = function(str){
+                     str = str.replace(/[`~!@$%^&*()_+<>?:"{},.\/;'[\]]/g, "");
+                     return str;
+				};
+				this.checkUserInfo = function(){
+					var  re = /^1\d{10}$/;
+					var _this = this;
+					var _name  = $(_this.infoDoms[0]).val();
+			        var _tel =  $(_this.infoDoms[1]).val();
+			       	var _addr = $(_this.infoDoms[2]).val();
+			        if(!re.test(_tel)){
+			            this.showItemError(_this.infoDoms[1]);
+			            return false;
+			        }else if(_name < 3){
+			            this.showItemError(_this.infoDoms[0]);
+			            return false;
+			        }else if(_addr < 4){
+			        	this.showItemError(_this.infoDoms[2]);
+			        	return false;
+			        }
+			        this.data.name = _this.filter(_name);
+			        this.data.tel = _this.filter(_tel);
+			        this.data.addr = _this.filter(_addr);
+			        return true;
+				};
+				this.showError = function(){
+			        $("#js_info").hide();
+				};
+				this.showUserInfo();
+			}
+			var  Rotate = {
+				//图片数据
+				imgOption : {
+					imgs:[],
+					status:0
+		        },
+		        turnplate : {			
+					colors:["#bef1f4","#85dee4","#60d0d8"],					//大转盘奖品区块对应背景颜色
+					outsideRadius:138,			//大转盘外圆的半径
+					textRadius:110,				//大转盘奖品位置距离圆心的距离
+					insideRadius:42,			//大转盘内圆的半径
+					startAngle:0,				//开始角度
+					bRotate:false		//false:停止;ture:旋转
+			    },
+			    rotateFn : function (total,item,txt,fn){
+			    	this.endFn =  fn;
+					var angles = item * (360 / total) - (360 / (total*2));
+					if(angles<270){
+						angles = 270 - angles; 
+					}else{
+						angles = 360 - angles + 270;
+					}
+					$('#rotate').stopRotate();
+					var _this =this;
+					$('#rotate').rotate({
+						angle:0,
+						animateTo:angles+1800,
+						duration:8000,
+						callback:function (){
+							_this.turnplate.bRotate = !_this.turnplate.bRotate;
+							////////////////
+							if(_this.endFn) _this.endFn(txt);				
+							////////////////
+						}
+					});
+			    },
+			    initParams: function(){
+                    var l = $("#rotate").width(); 
+				     l = l *0.5;
+				    this.turnplate.outsideRadius = l * 0.80;
+                    this.turnplate.textRadius = l* 0.60;
+                    this.turnplate.insideRadius = l * 0.22;
+                    this.turnplate.Radius = l;
+			    }
+		    };
+		    var COUNT ={
+		        url:"http://hz.youku.com/red/click.php?tp=1&cp=[cp]&cpp=1000960&url="+location.href,
+		        sendStatics:function(num){
+		           var img = document.createElement("img");
+		           img.src = this.url.replace("[cp]",num);
+		        }
+		    };
+		    /******投票对象*******/
+		    var Lottery = {
+		       lotteryInfo :{
+					"lottery_id": 132,
+					"create_id": "xujiahui",
+					"create_source": 0,
+					"update_id": "xujiahui",
+					"update_source": 0,
+					"summary": "",
+					"title": "小米应用商店抽奖（张哲）",
+					"callback": "",
+					"luck_draw_obj": 1,
+					"one_day_win_num": 99,
+					"one_cycle_win_num": 99,
+					"one_day_draw_num": 99,
+					"lottery_icon": "http://r4.ykimg.com/0510000055DACE576714C06D3B09716F",
+					"layer_top_img": "",
+					"layer_left_img": "",
+					"layer_center_img": "",
+					"act_copy": "",
+					"status": 1,
+					"risk_control_switch": 0,
+					"defense_switch": 0,
+					"effective_type": 0,
+					"begintime": "2015-08-24 16:40:00",
+					"expiretime": "2015-09-20 00:00:00",
+					"_inserttime": "2015-08-24 15:57:27",
+					"_updatetime": "2015-09-09 11:01:23",
+					"prizes": [
+					{
+					"prize_id": "581",
+					"prize_no": "1",
+					"prize_level": "一等奖",
+					"prize_name": "小米电视55寸",
+					"prize_copy": "恭喜您获得小米电视55寸1台！",
+					"get_way": "",
+					"view_url": "",
+					"prize_icon": "http://r3.ykimg.com/0510000055DD303A6714C05A8A014061",
+					"prize_summary": "",
+					"prize_num": "200",
+					"prize_weight": "30.0000",
+					"max_draw_num": "100",
+					"user_max_win_num": "0",
+					"type": "1",
+					"virtual_type": "0",
+					"message_content": "",
+					"user_type": "0",
+					"remain_num": 72
+					},
+					{
+					"prize_id": "582",
+					"prize_no": "2",
+					"prize_level": "二等奖",
+					"prize_name": "Xbox One体感游戏机",
+					"prize_copy": "恭喜您获得Xbox One体感游戏机1部！",
+					"get_way": "",
+					"view_url": "",
+					"prize_icon": "http://r3.ykimg.com/0510000055DD30466714C07F120ED0AE",
+					"prize_summary": "",
+					"prize_num": "1000",
+					"prize_weight": "30.0000",
+					"max_draw_num": "1000",
+					"user_max_win_num": "0",
+					"type": "1",
+					"virtual_type": "0",
+					"message_content": "",
+					"user_type": "0",
+					"remain_num": 862
+					},
+					{
+					"prize_id": "583",
+					"prize_no": "3",
+					"prize_level": "三等奖",
+					"prize_name": "小米4手机",
+					"prize_copy": "恭喜您获得小米4手机1部！",
+					"get_way": "",
+					"view_url": "",
+					"prize_icon": "http://r1.ykimg.com/0510000055DD30586714C067F20D2F52",
+					"prize_summary": "",
+					"prize_num": "1000",
+					"prize_weight": "10.0000",
+					"max_draw_num": "200",
+					"user_max_win_num": "0",
+					"type": "1",
+					"virtual_type": "0",
+					"message_content": "",
+					"user_type": "0",
+					"remain_num": 960
+					},
+					{
+					"prize_id": "596",
+					"prize_no": "4",
+					"prize_level": "四等奖",
+					"prize_name": "优酷会员周卡",
+					"prize_copy": "恭喜您获得优酷会员周卡1张！",
+					"get_way": "",
+					"view_url": "",
+					"prize_icon": "http://r4.ykimg.com/0510000055DD30BF6714C0660603E3FC",
+					"prize_summary": "",
+					"prize_num": "48",
+					"prize_weight": "1.0000",
+					"max_draw_num": "48",
+					"user_max_win_num": "1",
+					"type": "2",
+					"virtual_type": "1",
+					"message_content": "",
+					"user_type": "0",
+					"remain_num": 48
+					},
+					{
+					"prize_id": "597",
+					"prize_no": "99",
+					"prize_level": "谢谢参与",
+					"prize_name": "谢谢参与！",
+					"prize_copy": "谢谢参与！",
+					"get_way": "",
+					"view_url": "",
+					"prize_icon": "http://r4.ykimg.com/0510000055DD30EB6714C00B6F0DECBB",
+					"prize_summary": "",
+					"prize_num": "919",
+					"prize_weight": "29.0000",
+					"max_draw_num": "0",
+					"user_max_win_num": "0",
+					"type": "0",
+					"virtual_type": "0",
+					"message_content": "",
+					"user_type": "0",
+					"remain_num": 919
+					}
+					],
+					"tasks": []
+					},
+                prizeInfo:{
+
+                },
+		       lotteryConfig:{
+		       	id:132,
+			    sourceUrl:"http://v.youku.com/x_mLotteryInfo",
+			    actUrl:"http://v.youku.com/x_mLotteryDraw"
+		       },
+		       ifContinue:true,
+		       flag:true,
+		       init : function(){
+		        var _width = $(".turntable").width();
+		        $(".turntable").height(_width);
+
+		       	 this.initLottery();
+		       	 this.tipContainer = $(".tip-content");
+		       },
+		       //验证是否登录
+		       checkIfLogin : function(){
+		       	var _this = this;
+		       	//alert("是否登录"+islogin());
+		        if(!islogin()){
+		            $(document).bind("userlogin",function(){
+		            	COUNT.sendStatics("4010600");
+		            	_this.getLotteryInfo();
+		            	_this.act();
+		            });
+		            login({type:"lottery",uaction:"login",callback:function(){
+		            	if($("#yk-winlogin")){
+		            		$("#yk-winlogin").hide();
+		            	}
+		            }});
+		        }else{
+		        	_this.getLotteryInfo();
+		        	_this.act();
+		        }
+		       },
+		       //获取奖品信息
+		      getLotteryInfo : function(){
+				   var _this = this;
+			        $.ajax({
+			        	url:this.lotteryConfig.sourceUrl,
+			        	type:"get",
+			        	data:{"id":this.lotteryConfig.id},
+			        	dataType:"jsonp",
+			        	crossDomain:"true",
+			            success:function(data){
+			            	if(data && data.error_code===0){
+			                   _this.lotteryInfo = data.result;
+			                  
+			                 }else{
+			        	        alert("获取信息失败，请重试！");
+			                }
+			            }
+			            	
+			        });
+		         
+			   },
+			   //检查是否过期
+			   checkTime:function(sDate,dDate){
+		           var nowTime = new Date().getTime();
+		           var sTime = new Date(sDate.split("-").join("/")).getTime();
+		           var dTime = new Date(dDate.split("-").join("/")).getTime();
+		           if(nowTime >= sTime && nowTime <= dTime){
+		           	 return 0;
+		           }else if(nowTime <sTime){
+		           	 return -1;
+		           }else{
+		           	  return -2;
+		           }
+			   },
+			   //初始化大转盘及其他信息
+			   initLottery : function(){
+			           var beginTime = this.lotteryInfo.begintime.split(" ")[0].split("-").join(".");
+			           var deadLineTime = this.lotteryInfo.expiretime.split(" ")[0].split("-").join(".");
+			           $("#js_dateLine").html("活动日期："+beginTime+"-"+deadLineTime);
+			           var _result = this.checkTime(this.lotteryInfo.begintime,this.lotteryInfo.expiretime);
+		               if(_result === 0){
+				           var _this =  this;
+				           $('#js_pointer').on("click",function(){
+				           	  if(_this.ifContinue && _this.flag){
+				           	  	 _this.flag = false;
+				           	     _this.checkIfLogin();
+				           	     COUNT.sendStatics("4010599");
+				              }else{
+                                  _this.showResultMessage(this.error_msg,1);
+                                  return;
+				              } 
+				           });
+		               }else if(_result===-1){
+		               	   alert("活动还未开始，请您稍后再参加！");
+		               }else{
+		               	   alert("活动已经结束,期待您的下次参与！");
+		               }
+			       
+		        },
+			   //开始抽奖
+			   act:function(){
+			   	    var _this = this;
+			   	    //alert("开始发起抽奖请求！");
+		            $.ajax({
+			        	url:this.lotteryConfig.actUrl,
+			        	type:"get",
+			        	data:{"id":this.lotteryConfig.id},
+			        	dataType:"jsonp",
+			        	crossDomain:"true",
+			            success:function(data){
+			            	_this.flag = true;
+			            	_this.checkActResult(data);
+			            }
+		            });
+			   },
+			    //检查抽奖结果
+			    checkActResult : function(data){
+			       //console.log(data);
+			       this.prizeInfo = data.prize;
+			       var _code = data.error_code;
+			       this.error_msg = data.error_content ? data.error_content:"用户当日没有抽奖机会!!";
+			       //alert("返回结果"+_code);
+			       switch(_code) {
+			       	case 0:
+			       	    var num = this.prizeInfo.prize_no==99 ? 5:this.prizeInfo.prize_no;
+			       		this.show(num);
+			       		break;
+			       	case -2:
+			       		//alert("未登录！");
+			       		login();
+			       		break;
+			       	case -22:
+			       	    //alert("用户当日没有抽奖机会!!");
+			       	    this.ifContinue = false;
+			       	    this.showResultMessage(this.error_msg,1);
+			       	    break;
+			       	case -21:
+			       	    this.show(5);
+			       	    break;
+			       	default:
+			       	    this.ifContinue = false;
+			       	    this.showResultMessage(this.error_msg,1);
+			       	    break;
+			       }
+			    },
+			    show: function(num){
+			        //console.info(data);
+			        var message = (this.prizeInfo && this.prizeInfo.message_content) ? this.prizeInfo.message_content:(this.prizeInfo && this.prizeInfo.prize_copy ? this.prizeInfo.prize_copy:"未中奖，谢谢参与！");
+			        Rotate.rotateFn(this.lotteryInfo.prizes.length,num,message,this.showResultMessage);
+			   },
+			   //弹出抽奖提示信息
+			    showResultMessage : function(txt,type){
+			    	var _this = Lottery;
+					_this.tipContainer.show();
+					var _type = (!txt || txt.indexOf("谢谢参与") > -1 || type==1) ? false : true;
+			        if(!_type){
+			        	var failMsgDom = $("#js_fail");
+			            failMsgDom.html('<div class="thanks">'+txt+'</div>');
+			            failMsgDom.show();
+			            if(_this.ifContinue){
+			            	setTimeout(function(){
+			            		$("#js_fail").hide();
+			            		_this.tipContainer.hide();
+			            	}, 2000);
+			            }
+			        }else{
+			        	var successMsgDom = $("#js_msShow");
+			        	successMsgDom.show();
+			            successMsgDom.find(".award").html(txt);
+			            var lid = _this.lotteryConfig.id , pid =_this.prizeInfo.prize_id;
+			        	successMsgDom.find("#js_getward").on("click",function(){
+			        		 $("#js_msShow").hide();
+			                 var userInfo = new UserInfo({"lid":lid,"pid":pid});
+			        	});
+			        }
+			    }
+			   
+		    };
+		    Rotate.initParams();
+		    window.onload = function(){
+		    	COUNT.sendStatics("4010598");
+		    	Lottery.init();
+		    };
+		})();
+		</script>
+</body>
+</html>

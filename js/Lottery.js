@@ -158,9 +158,11 @@
         init : function(){
             var _width = $(".turntable").width();
             $(".turntable").height(_width);
-            this.rotate = Rotate;
-            this.initLottery();
             this.tipContainer = $(".tip-content");
+            this.rotate = Rotate;
+            if(this.lotteryInfo){
+               this.initLottery();
+            }
         },
         //初始化抽奖信息
         initLottery : function(){
